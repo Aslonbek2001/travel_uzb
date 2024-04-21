@@ -99,7 +99,7 @@ DATABASES = {
 
         'NAME': "travel",
 
-        'USER': 'postgres',
+        'USER': 'arslon',
 
         'PASSWORD': '12345',
 
