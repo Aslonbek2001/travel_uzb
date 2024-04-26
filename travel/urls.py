@@ -28,9 +28,7 @@ urlpatterns = [
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
    path('admin/', admin.site.urls),
    path('api/v1/', include('main.urls')),
-   path("api/v1/", include("cafe.urls")), 
    path('api/v1/', include('users.urls')),
-   path('api/v1/', include('cart.urls')),
    path('api/v1/', include('order.urls')),
 ]
 

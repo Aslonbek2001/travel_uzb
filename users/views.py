@@ -4,11 +4,11 @@ from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from cart.models import Cart
+
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from cart.serializers import CartSerializer
+
 from users.models import CustomUser
 from order.models import Order, OrderItem
 from .serializers import CustomUserSerializer
