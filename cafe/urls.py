@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import CafeListView, CafeDetailView
+from .views import CafeListApiView, CafeDetailView
 
 urlpatterns = [
-    path('cafelar/', CafeListView.as_view(), name='cafes'),
+    path('cafelar/', CafeListApiView.as_view(), name='cafes'),
     path('cafe/<int:pk>/', CafeDetailView.as_view(), name='cafes_detail'),  
 ]
 

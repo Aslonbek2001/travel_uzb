@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import CustomUser
-from order.models import Order, OrderItem
+from order.models import Order
 from .serializers import CustomUserSerializer
 
 # class UserInfo(APIView):

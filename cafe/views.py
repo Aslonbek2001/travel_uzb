@@ -8,38 +8,50 @@ from rest_framework.response import Response
 from rest_framework import status,permissions
 # Create your views here.
 
-class CafeListView(generics.ListAPIView):
-    queryset = Cafe.objects.all()
-    serializer_class = CafeSerializer
 
+class CafeListApiView(APIView):
+    def get(self, request, format=None):
+        cafes = Cafe.objects.all()
+        serializer = CafeSerializer(cafes, many=True)
+        return Response(serializer.data)
+
+
+# class CafeDetailView(APIView):
+#     def get(self, request, pk):
+#         cafe = Cafe.objects.get(id=pk)
+#         images = CafeImages.objects.filter(cafe=cafe)
+#         menu = Foods.objects.filter(cafe=cafe)
+
+#         cafe = CafeSerializer(cafe)
+#         images = CafeImagesSerializer(images)
+#         menu = FoodsSerializer(menu)
+
+#         data = {
+#             "cafe": cafe.data,
+#             'images': images.data,
+#             "menu": menu.data,
+#         }
+
+#         return Response(data=data)
 
 class CafeDetailView(APIView):
-    def get(self, request, *args, **kwargs):
-        cafe = Cafe.objects.get(pk=kwargs['pk'])
+    def get(self, request, pk):
+        cafe = Cafe.objects.get(id=pk)
+        images = CafeImages.objects.filter(chayxana_id=pk)  # Use the correct field name
         menu = Foods.objects.filter(cafe=cafe)
-        cafe = CafeSerializer(cafe)
-        menu = FoodsSerializer(menu)
+
+        cafe_serializer = CafeSerializer(cafe)
+        images_serializer = CafeImagesSerializer(images, many=True)  # Assuming multiple images
+        menu_serializer = FoodsSerializer(menu, many=True)
 
         data = {
-            "cafe": cafe.data,
-            "menu": menu.data
+            "cafe": cafe_serializer.data,
+            "images": images_serializer.data,
+            "menu": menu_serializer.data,
         }
 
         return Response(data=data)
 
-
-    # def get_object(self, pk):
-    #     try:
-    #         return Cafe.objects.get(pk=pk)
-    #     except Cafe.DoesNotExist:
-    #         raise Http404
-        
-    # def get(self, request, pk, format=None):
-    #     cafe = self.get_object(pk)
-    #     serializer = CafeSerializer(cafe)
-    #     return Response(serializer.data)
-    
-    # def post(self, request, pk, format=None):
     
     
     
