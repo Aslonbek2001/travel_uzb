@@ -1,56 +1,36 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib import auth, messages
-from django.db.models import Prefetch
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
-from django.urls import reverse
-
-from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, generics
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from .serializers import CustomUserSerializer, UserRegistrationSerializer
 
-from users.models import CustomUser
-from order.models import Order
-from .serializers import CustomUserSerializer
+from .models import CustomUser
 
-# class UserInfo(APIView):
-#     def get(self, request, id, format=None):
-#         user = CustomUser.objects.get(id=id)
-#         carts = Cart.objects.filter(user=user)
-#         carts = CartSerializer(carts)
-#         cardcount = carts.count()
-#         orders = Order.objects.filter(user=user)
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-#         data = {
-#             "user": user,
-#             "card_count": cardcount,
-#             "cart": carts,
-#             "orders": orders,
-#         }
+##################### REGISTER ######################################
 
-#         return Response(data=data)
-    
+class UserRegistrationView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserRegistrationSerializer
 
-class UserInfo(generics.ListAPIView):
-        queryset = CustomUser.objects.all()
-        serializer_class = CustomUserSerializer
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    # def get(self, request, format=None):
-    #     user = CustomUser.objects.all()
-    #     user = CustomUserSerializer(user, many=True)
-        # carts = Cart.objects.filter(user=user)
-        # carts = CartSerializer(carts)
-        # cardcount = carts.count()
-        # orders = Order.objects.filter(user=user)
+#################### LOGIN ##################################################
+class UserLoginView(generics.CreateAPIView):
+    serializer_class = CustomUserSerializer
 
-
-
-        # data = {
-        #     "user": user,
-        #     # "card_count": cardcount,
-        #     # "cart": carts,
-        #     # "orders": orders,
-        # }
-
-        # return Response(data=data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data
+           
+            return Response({'status': True}, status=status.HTTP_200_OK)
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
