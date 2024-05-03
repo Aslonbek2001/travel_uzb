@@ -15,11 +15,11 @@ class QadamjoFotoSerial(ModelSerializer):
 class AboutImagesSeralizer(ModelSerializer):
     class Meta:
         model = AboutImages
-        fields = ('about', 'image')
+        fields = "__all__"
 
 class AboutUsSeralizer(ModelSerializer):
     class Meta:
         model = AboutUs
-        fields = ('title', 'image', 'status', 'description')
+        fields = ("id", 'title', 'image', 'status', 'description')
 
         
