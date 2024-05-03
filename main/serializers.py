@@ -4,13 +4,13 @@ from rest_framework.serializers import Serializer, ModelSerializer
 class QadamjoSeralizer(ModelSerializer):
     class Meta:
         model = Qadamjo
-        fields = ('title', 'short_title', 'image', 'status', 'description')
+        fields = "__all__"
 
 
 class QadamjoFotoSerial(ModelSerializer):
     class Meta:
         model = FotoPlus
-        fields = ('image')
+        fields = "__all__"
 
 class AboutImagesSeralizer(ModelSerializer):
     class Meta:

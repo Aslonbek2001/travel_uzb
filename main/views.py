@@ -29,7 +29,7 @@ class QadamjoDetail(APIView):
         qadamjo = self.get_object(pk)
         serializer = QadamjoSeralizer(qadamjo).data
         images = FotoPlus.objects.filter(pleace=qadamjo).all()
-        imageSerialiser = QadamjoFotoSerial(images).data
+        imageSerialiser = QadamjoFotoSerial(images, many=True).data
         data = {
             "qadamjo": serializer,
             "images": imageSerialiser,

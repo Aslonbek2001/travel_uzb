@@ -14,7 +14,6 @@ class CustomUser(AbstractUser):
         ('xodim', 'Xodim'),
     )
     
-
     phone = models.CharField(max_length=15, null=True, blank=True)
     user_role = models.CharField(max_length=20, choices=USER_ROLE)
     create_at = models.DateTimeField(auto_now_add=True)
